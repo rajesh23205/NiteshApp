@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const mongoose = require('mongoose');
-// const productSchema = require("../schema/productModal");
+const Products = require("../schema/productModal");
 
 router.get('/', (req, res) => {
     res.send('Hello World!!!')
@@ -13,26 +13,12 @@ const movieSchema = {
   
 const Movies = mongoose.model('movies', movieSchema);
 
-const productSchema = {
-    name:String
-  }
-  
-const Products = mongoose.model('products', productSchema);
-  
-// router.get('/movies', function(req, res) {
-//     Products.find().then(movies => res.json(movies))
-// })
-
-// router.post("/signup", function(req, res, next){
-//     var reqData = req.body;
-//     console.log(reqData);
-//     res.send(reqData)
-//   })
+router.get('/movies', function(req, res) {
+  Movies.find().then(movies => res.json(movies))
+})
 
 router.post("/setProduct", function(req, res, next){
     var reqData = req.body;
-    // console.log(reqData);
-    // res.send(reqData);
     var productSchema = new Products(reqData);
     productSchema.save(function(error){
       if(error){
@@ -42,6 +28,10 @@ router.post("/setProduct", function(req, res, next){
         res.json({res:"success"});
       }
     })
+  })
+
+  router.get('/getProduct', function(req, res) {
+    Products.find().then(movies => res.json(movies))
   })
 
   module.exports = router;
