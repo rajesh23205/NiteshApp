@@ -1,29 +1,33 @@
 import logo from './logo.svg';
-import { useState, useEffect } from 'react';
+import AddProduct from './components/AddProduct/AddProduct';
+import ProductList from './components/ProductList/ProductList';
+import DemoApp from './components/DemoAPI/DemoApi';
+import Layout from './components/Layout/Layout';
+import Home from './components/Home/Home';
+import NoPage from './components/NoPage/NoPage';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Switch,
+  Link
+} from "react-router-dom";
 import './App.css';
 
 function App() {
 
-  const [movies, setMovies] = useState([
-    {
-      name:''
-    }
-  ])
-
-  useEffect(()=>{
-    fetch('/movies').then(res => {
-      if(res.ok){
-        return res.json();
-      }
-    }).then(jsonRes => setMovies(jsonRes))
-  }, [])
-
   return (
-    <div className="App">
-      {movies.map(movie => {
-        return <h1 key={movie.name}>{movie.name}</h1>
-      })}
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="DemoApp" element={<DemoApp />} />
+          <Route path="ProductList" element={<ProductList />} />
+          <Route path="AddProduct" element={<AddProduct />} />
+          <Route path="*" element={<NoPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
