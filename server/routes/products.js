@@ -31,12 +31,22 @@ router.get("/movies", function (req, res) {
 
 router.post(
   "/setProduct",
-  upload.single("productImage"),
+  upload.array("productImage", 6),
   function (req, res, next) {
-    console.log("reqData", req.file);
+    console.log("reqData", req.files);
     var reqData = req.body;
-    reqData.filename = req.file.filename;
-    reqData.filePath = req.file.path;
+    let filename = [];
+    let filePath = [];
+    req.files.forEach((file) => {
+      filename.push(file.filename);
+      filePath.push(file.path);
+    });
+    reqData.filename = filename;
+    reqData.filePath = filePath;
+    console.log("filename", filename);
+    console.log("filePath", filePath);
+    console.log("reqData.filename", reqData.filename);
+    console.log("reqData.filePath", reqData.filePath);
     var productSchema = new ProductDataModel(reqData);
     productSchema.save(function (error) {
       if (error) {

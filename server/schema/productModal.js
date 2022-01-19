@@ -13,8 +13,8 @@ const ProductDataSchema = mongoose.Schema({
   created_at: { type: String, required: true },
   updated_at: { type: String, required: true },
   status: { type: String, required: true },
-  filename: { type: String, required: true },
-  filePath: { type: String, required: true },
+  filename: { type: [String], required: true },
+  filePath: { type: [String], required: true },
 });
 
 module.exports = ProductDataModel = mongoose.model(
