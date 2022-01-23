@@ -43,10 +43,6 @@ router.post(
     });
     reqData.filename = filename;
     reqData.filePath = filePath;
-    console.log("filename", filename);
-    console.log("filePath", filePath);
-    console.log("reqData.filename", reqData.filename);
-    console.log("reqData.filePath", reqData.filePath);
     var productSchema = new ProductDataModel(reqData);
     productSchema.save(function (error) {
       if (error) {
@@ -60,7 +56,12 @@ router.post(
 );
 
 router.get("/getProduct", function (req, res) {
-  ProductDataModel.find().then((movies) => res.json(movies));
+  let skipCount = (req.body.pageNo - 1) * req.body.count;
+  var query = { categoryId: req.body.categoryId };
+  ProductDataModel.find(query)
+    .skip(skipCount)
+    .limit(req.body.count)
+    .then((movies) => res.json(movies));
 });
 
 module.exports = router;
