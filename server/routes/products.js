@@ -3,6 +3,7 @@ var router = express.Router();
 const mongoose = require("mongoose");
 const multer = require("multer");
 const ProductDataModel = require("../schema/productModal");
+const CategoryDataModel = require("../schema/categoryModal");
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -33,7 +34,7 @@ router.post(
   "/setProduct",
   upload.array("productImage", 6),
   function (req, res, next) {
-    console.log("reqData", req.files);
+    console.log("reqData", req.body);
     var reqData = req.body;
     let filename = [];
     let filePath = [];
@@ -62,6 +63,25 @@ router.get("/getProduct", function (req, res) {
     .skip(skipCount)
     .limit(req.body.count)
     .then((movies) => res.json(movies));
+});
+
+router.post("/setCategory", function (req, res, next) {
+  console.log("reqData", req.body);
+  var reqData = req.body;
+
+  var productSchema = new CategoryDataModel(reqData);
+  productSchema.save(function (error) {
+    if (error) {
+      console.log("error " + error);
+      res.json({ res: "error" });
+    } else {
+      res.json({ res: "success" });
+    }
+  });
+});
+
+router.get("/getCategory", function (req, res) {
+  CategoryDataModel.find().then((movies) => res.json(movies));
 });
 
 module.exports = router;

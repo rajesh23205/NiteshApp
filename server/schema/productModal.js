@@ -15,6 +15,7 @@ const ProductDataSchema = mongoose.Schema({
   status: { type: String, required: true },
   filename: { type: [String], required: true },
   filePath: { type: [String], required: true },
+  otherDetails: { type: [], require: true },
 });
 
 module.exports = ProductDataModel = mongoose.model(
